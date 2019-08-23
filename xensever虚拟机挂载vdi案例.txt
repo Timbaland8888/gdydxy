@@ -1,0 +1,33 @@
+﻿1.查询复制的VBD和VBI
+[root@Ln05 ~]# xe vm-disk-list  vm=JSWIN7-289
+Disk 0 VBD:
+uuid ( RO)             : d3d2d0c5-e081-76d7-86c5-249a0b8a73a9
+    vm-name-label ( RO): JSWIN7-289
+       userdevice ( RW): 0
+
+
+Disk 0 VDI:
+uuid ( RO)             : 704502fb-636a-490e-ad41-db12279fec73
+       name-label ( RW): JSWIN7-289-D
+    sr-name-label ( RO): SR03
+     virtual-size ( RO): 10737418240
+	 
+[root@Ln05 ~]# xe vm-list name-label=JSWIN7-290
+uuid ( RO)           : 9e86605c-ff50-0a5a-c3d6-49954082875c
+     name-label ( RW): JSWIN7-290
+    power-state ( RO): halted
+	 
+	 
+2.删除虚拟机vdi
+
+xe vdi-destroy uuid=7f583c62-f935-476c-a136-d5f5f09bfc02
+	 
+3.克隆一份VDI 命名为pp
+
+xe vdi-clone new-name-label=pp uuid=704502fb-636a-490e-ad41-db12279fec73
+
+4.创建连接的vbd使VDI连接到虚拟机
+
+xe vbd-create vdi-uuid=<新vdi_uuid> vm-uuid=<目标vm uuid> device=0 type=disk mode=RW 
+
+	 
